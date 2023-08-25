@@ -1,0 +1,35 @@
+{
+  "name": "discord.js-base-bot",
+  "version": "1.0.0-stable",
+  "description": "a simple base bot for discord.js",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "node app/index.js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "dev": "nodemon app/index.js"
+  },
+  "author": "rablonkk' (https://github.com/rablonkk)",
+  "homepage": "https://github.com/rablonkk/discord.js-base-bot",
+  "repository": "github:rablonkk/discord.js-base-bot",
+  "bugs": "https://github.com/rablonkk/discord.js-base-bot/issues",
+  "keywords": [
+    "discord.js base bot",
+    "discord.js bot",
+    "discord-js-bot",
+    "discord.js",
+    "base bot discord"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.11.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.47.0",
+    "nodemon": "^3.0.1"
+  }
+}
