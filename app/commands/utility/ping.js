@@ -44,7 +44,7 @@ module.exports = class Ping extends Commands {
 			.setDescription(`📡 API latency: \`${Math.round(interaction.client.ws.ping)}ms.\`\n🏓 Response time: \`${Date.now() - interaction.createdTimestamp}ms.\``)
 			.setColor(interaction.guild.members.me.displayHexColor); // with this simple code, the bot will use its own job color to add it to the embed.
 
-		await interaction.reply({
+		return void interaction.reply({
 			embeds: [pingEmbed],
 			ephemeral: true,
 		});
