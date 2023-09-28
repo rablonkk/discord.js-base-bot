@@ -1,12 +1,13 @@
 const Events = require('../structures/Events');
 const Config = require('../config/Config');
 const SlashEvents = require('../utils/SlashEvents');
+const { Client } = require('discord.js');
 
 module.exports = class Ready extends Events {
 
 	/**
 	 *
-	 * @param {ExtendedClient} client
+	 * @param {Client} client
 	 */
 	constructor(client) {
 		super(client);

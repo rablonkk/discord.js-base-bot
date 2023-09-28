@@ -1,5 +1,11 @@
+const { Client } = require("discord.js");
+
 module.exports = class SlashEvents {
 
+	/**
+	 * 
+	 * @param {Client} client 
+	 */
 	constructor(client) {
 		this.client = client;
 	}

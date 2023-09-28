@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType, Client, CommandInteraction } = require('discord.js');
 
 const Commands = require('../../structures/Commands');
 
@@ -6,7 +6,7 @@ module.exports = class Ping extends Commands {
 
 	/**
 	 *
-	 * @param {ExtendedClient} client
+	 * @param {Client} client
 	 */
 	constructor(client) {
 		super(client);
@@ -21,12 +21,10 @@ module.exports = class Ping extends Commands {
 				name: 'test',
 				description: 'test'
 				type: ApplicationCommandOptionType.Subcommand,
-				choices: [
-					{
-						name: 'test',
-						value: 'test'
-					}
-				],
+				choices: [{
+					name: 'test',
+					value: 'test'
+				}],
 				required: true
 			}*/
 		];
@@ -37,6 +35,10 @@ module.exports = class Ping extends Commands {
 		this.ignoreSlash = false;
 	}
 
+	/**
+	 * 
+	 * @param {CommandInteraction} interaction 
+	 */
 	async runAsInteraction(interaction) {
 		const pingEmbed = new EmbedBuilder()
 			.setDescription(`📡 API latency: \`${Math.round(interaction.client.ws.ping)}ms.\`\n🏓 Response time: \`${Date.now() - interaction.createdTimestamp}ms.\``)

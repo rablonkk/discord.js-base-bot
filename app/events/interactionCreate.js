@@ -1,4 +1,4 @@
-const { InteractionType, ChannelType, EmbedBuilder } = require('discord.js');
+const { InteractionType, ChannelType, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 
 const Events = require('../structures/Events');
 
@@ -6,7 +6,7 @@ module.exports = class interactionCreate extends Events {
 
 	/**
      *
-     * @param {ExtendedClient} client
+     * @param {Client} client
      */
 	constructor(client) {
 		super(client);
@@ -15,6 +15,10 @@ module.exports = class interactionCreate extends Events {
 		this.name = 'interactionCreate';
 	}
 
+	/**
+	 * 
+	 * @param {CommandInteraction} interaction 
+	 */
 	async run(interaction) {
 		if (interaction.type === InteractionType.ApplicationCommand) {
 			const command = this.client.commands.get(interaction.commandName);
