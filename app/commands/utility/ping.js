@@ -1,12 +1,11 @@
-const { EmbedBuilder, ApplicationCommandOptionType, Client, CommandInteraction } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Commands = require('../../structures/Commands');
 
-module.exports = class Ping extends Commands {
-
+class Ping extends Commands {
 	/**
 	 *
-	 * @param {Client} client
+	 * @param {import('discord.js').Client} client
 	 */
 	constructor(client) {
 		super(client);
@@ -15,19 +14,7 @@ module.exports = class Ping extends Commands {
 		this.name = 'ping';
 		this.description = 'Check ping the bot';
 
-		// the example below will show you how you can make the command options, or a subcommand.
-		this.options = [
-			/* {
-				name: 'test',
-				description: 'test'
-				type: ApplicationCommandOptionType.Subcommand,
-				choices: [{
-					name: 'test',
-					value: 'test'
-				}],
-				required: true
-			}*/
-		];
+		this.options = [];
 
 		this.category = 'utility';
 
@@ -36,18 +23,21 @@ module.exports = class Ping extends Commands {
 	}
 
 	/**
-	 * 
-	 * @param {CommandInteraction} interaction 
+	 *
+	 * @param {import('discord.js').CommandInteraction} interaction
+	 * @returns
 	 */
-	async runAsInteraction(interaction) {
+	run(interaction) {
 		const pingEmbed = new EmbedBuilder()
 			.setDescription(`📡 API latency: \`${Math.round(interaction.client.ws.ping)}ms.\`\n🏓 Response time: \`${Date.now() - interaction.createdTimestamp}ms.\``)
-			.setColor(interaction.guild.members.me.displayHexColor); // with this simple code, the bot will use its own job color to add it to the embed.
+			.setColor(interaction.guild.members.me.displayHexColor || 'Default');
 
-		return void interaction.reply({
+		return interaction.reply({
 			embeds: [pingEmbed],
 			ephemeral: true,
 		});
 	}
 
-};
+}
+
+module.exports = Ping;

@@ -23,16 +23,16 @@ module.exports = class loadEvents extends Loaders {
 
 	loadFolder(directory) {
 		const filePath = path.join(__dirname, directory);
-		const files = fs.readdirSync(filePath);
+		const files = fs.readdirSync(filePath, { withFileTypes: true });
 
 		for (const file of files) {
-			const fileStat = fs.lstatSync(path.join(filePath, file));
+			const fileStat = fs.lstatSync(path.join(filePath, file.name));
 
 			if (fileStat.isDirectory()) {
-				this.loadFolder(path.join(directory, file));
+				this.loadFolder(path.join(directory, file.name));
 			}
 			else if (file.endsWith('.js')) {
-				const Event = require(path.join(filePath, file));
+				const Event = require(path.join(filePath, file.name));
 
 				if (Event.prototype instanceof Events) {
 					this.listenEvent(Event);

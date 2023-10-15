@@ -1,4 +1,10 @@
-const { Client, GatewayIntentBits, Partials, ActivityType, Events } = require('discord.js');
+const {
+	Client,
+	GatewayIntentBits,
+	Partials,
+	ActivityType,
+	Events,
+} = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config({ path: '.env' });
@@ -25,26 +31,18 @@ client.on(Events.ClientReady, () => {
 	});
 });
 
-client.on(Events.Error, (err) => {
-	console.log('[Client ERROR] ', err);
-});
-
-process.on('unhandledRejection', (reason) => {
-	console.log('[ERROR] ', reason);
-});
-
 function startStructures(directory) {
 	const filePath = path.join(__dirname, directory);
-	const files = fs.readdirSync(filePath);
+	const files = fs.readdirSync(filePath, { withFileTypes: true });
 
 	for (const file of files) {
-		const fileStat = fs.lstatSync(path.join(filePath, file));
+		const fileStat = fs.lstatSync(path.join(filePath, file.name));
 
 		if (fileStat.isDirectory()) {
-			startStructures(path.join(directory, file));
+			startStructures(path.join(directory, file.name));
 		}
 		else if (file.endsWith('.js')) {
-			const Loader = require(path.join(filePath, file));
+			const Loader = require(path.join(filePath, file.name));
 
 			if (Loader.prototype instanceof Loaders) {
 				const loader = new Loader(client);
@@ -55,7 +53,5 @@ function startStructures(directory) {
 	}
 }
 
-(async () => {
-	startStructures('./loaders');
-	await client.login(process.env.TOKEN);
-})();
+startStructures('./loaders');
+client.login(process.env.TOKEN);

@@ -1,13 +1,11 @@
 const Events = require('../structures/Events');
 const Config = require('../config/Config');
 const SlashEvents = require('../utils/SlashEvents');
-const { Client } = require('discord.js');
 
-module.exports = class Ready extends Events {
-
+class Ready extends Events {
 	/**
 	 *
-	 * @param {Client} client
+	 * @param {import('discord.js').Client} client
 	 */
 	constructor(client) {
 		super(client);
@@ -17,10 +15,20 @@ module.exports = class Ready extends Events {
 	}
 
 	async run() {
+		this.client.on('error', (err) => {
+			console.log('[Client ERROR] ', err);
+		});
+
+		process.on('unhandledRejection', (reason) => {
+			console.log('[ERROR] ', reason);
+		});
+
 		this.client.config = Config;
 
 		this.client.slash = new SlashEvents(this.client);
 		await this.client.slash.verifyCommands();
 	}
 
-};
+}
+
+module.exports = Ready;

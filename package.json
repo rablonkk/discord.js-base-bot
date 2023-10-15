@@ -5,8 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "start": "node app/index.js",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix",
+    "lint": "eslint . --ext .js --fix",
     "dev": "nodemon app/index.js"
   },
   "author": "rablonkk' (https://github.com/rablonkk)",
@@ -22,7 +21,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16.11.0"
+    "node": ">=16.18.0"
   },
   "dependencies": {
     "discord.js": "^14.13.0",

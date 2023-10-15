@@ -1,12 +1,11 @@
-const { InteractionType, ChannelType, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { InteractionType, ChannelType, EmbedBuilder } = require('discord.js');
 
 const Events = require('../structures/Events');
 
-module.exports = class interactionCreate extends Events {
-
+class interactionCreate extends Events {
 	/**
      *
-     * @param {Client} client
+     * @param {import('discord.js').Client} client
      */
 	constructor(client) {
 		super(client);
@@ -16,42 +15,45 @@ module.exports = class interactionCreate extends Events {
 	}
 
 	/**
-	 * 
-	 * @param {CommandInteraction} interaction 
+	 *
+	 * @param {import('discord.js').CommandInteraction} interaction
+	 * @returns
 	 */
 	async run(interaction) {
 		if (interaction.type === InteractionType.ApplicationCommand) {
-			const command = this.client.commands.get(interaction.commandName);
+			if (interaction.isCommand()) {
+				const command = this.client.commands.get(interaction.commandName);
 
-			if (command.ignoreSlash) {
-				return this.IgnoreSlash(interaction);
-			}
+				if (command.ignoreSlash) {
+					return this.IgnoreSlash(interaction);
+				}
 
-			if (!command) {
-				return this.unknownCommand(interaction);
-			}
+				if (!command) {
+					return this.unknownCommand(interaction);
+				}
 
-			if (!command.enabled) {
-				return this.commandDisabled(interaction);
-			}
+				if (!command.enabled) {
+					return this.commandDisabled(interaction);
+				}
 
-			if (interaction.channel.type === ChannelType.DM) {
-				return this.DmCommand(interaction);
-			}
+				if (interaction.channel.type === ChannelType.DM) {
+					return this.DmCommand(interaction);
+				}
 
-			try {
-				command.runAsInteraction(interaction);
-			}
-			catch (error) {
-				this.commandError(interaction);
-				console.log('[InteractionCreate ERROR] ', error);
+				try {
+					command.run(interaction);
+				}
+				catch (error) {
+					this.commandError(interaction);
+					console.log('[InteractionCreate ERROR] ', error);
+				}
 			}
 		}
 	}
 
 	async unknownCommand(interaction) {
 		const unknownEmbed = new EmbedBuilder({ color: this.client.config.colors.error })
-			.setDescription('❌ Unknown command');
+			.setDescription('❌ Unknown command.');
 
 		await interaction.reply({
 			embeds: [unknownEmbed],
@@ -60,8 +62,7 @@ module.exports = class interactionCreate extends Events {
 	}
 
 	async commandDisabled(interaction) {
-		const disabledEmbed = new EmbedBuilder({ color: this.client.config.colors.error })
-			.setDescription('❌ This command is currently disabled!');
+		const disabledEmbed = '❌ This command is temporarily disabled.';
 
 		await interaction.reply({
 			embeds: [disabledEmbed],
@@ -70,8 +71,7 @@ module.exports = class interactionCreate extends Events {
 	}
 
 	async IgnoreSlash(interaction) {
-		const ignoreSlash = new EmbedBuilder({ color: this.client.config.colors.error })
-			.setDescription('❌ This command is no longer available.');
+		const ignoreSlash = '❌ This command is no longer available.';
 
 		await interaction.reply({
 			embeds: [ignoreSlash],
@@ -80,8 +80,7 @@ module.exports = class interactionCreate extends Events {
 	}
 
 	async DmCommand(interaction) {
-		const DmEmbed = new EmbedBuilder({ color: this.client.config.colors.error })
-			.setDescription('❌ You can\'t use commands in my DMs');
+		const DmEmbed = '❌ You cannot execute commands in my DM.';
 
 		await interaction.reply({
 			embeds: [DmEmbed],
@@ -90,13 +89,14 @@ module.exports = class interactionCreate extends Events {
 	}
 
 	async commandError(interaction) {
-		const errorEmbed = new EmbedBuilder({ color: this.client.config.colors.error })
-			.setDescription('❌ An error occurred');
+		const errorEmbed = '❌ An error occurred while executing this command.';
 
 		await interaction.reply({
-			embeds: [errorEmbed],
+			content: [errorEmbed],
 			ephemeral: true,
 		});
 	}
 
-};
+}
+
+module.exports = interactionCreate;
