@@ -6,4 +6,8 @@ module.exports = class Events {
 		this.name = String;
 	}
 
+	async run() {
+		throw new TypeError(`There are no execution methods to run the event ${this.name}`);
+	}
+
 };

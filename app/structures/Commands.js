@@ -13,4 +13,8 @@ module.exports = class Commands {
 		this.ignoreSlash = Boolean;
 	}
 
+	async run() {
+		throw new TypeError(`There are no execution methods to run the command ${this.name}`);
+	}
+
 };

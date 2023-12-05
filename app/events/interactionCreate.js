@@ -55,7 +55,7 @@ class interactionCreate extends Events {
 		const unknownEmbed = new EmbedBuilder({ color: this.client.config.colors.error })
 			.setDescription('❌ Unknown command.');
 
-		await interaction.reply({
+		return interaction.reply({
 			embeds: [unknownEmbed],
 			ephemeral: true,
 		});
@@ -64,7 +64,7 @@ class interactionCreate extends Events {
 	async commandDisabled(interaction) {
 		const disabledEmbed = '❌ This command is temporarily disabled.';
 
-		await interaction.reply({
+		return interaction.reply({
 			embeds: [disabledEmbed],
 			ephemeral: true,
 		});
@@ -73,7 +73,7 @@ class interactionCreate extends Events {
 	async IgnoreSlash(interaction) {
 		const ignoreSlash = '❌ This command is no longer available.';
 
-		await interaction.reply({
+		return interaction.reply({
 			embeds: [ignoreSlash],
 			ephemeral: true,
 		});
@@ -82,7 +82,7 @@ class interactionCreate extends Events {
 	async DmCommand(interaction) {
 		const DmEmbed = '❌ You cannot execute commands in my DM.';
 
-		await interaction.reply({
+		return interaction.reply({
 			embeds: [DmEmbed],
 			ephemeral: true,
 		});
@@ -91,7 +91,7 @@ class interactionCreate extends Events {
 	async commandError(interaction) {
 		const errorEmbed = '❌ An error occurred while executing this command.';
 
-		await interaction.reply({
+		return interaction.reply({
 			content: [errorEmbed],
 			ephemeral: true,
 		});

@@ -3,6 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 const Commands = require('../../structures/Commands');
 
 class Ping extends Commands {
+
 	/**
 	 *
 	 * @param {import('discord.js').Client} client
@@ -29,10 +30,10 @@ class Ping extends Commands {
 	 */
 	run(interaction) {
 		const pingEmbed = new EmbedBuilder()
-			.setDescription(`📡 API latency: \`${Math.round(interaction.client.ws.ping)}ms.\`\n🏓 Response time: \`${Date.now() - interaction.createdTimestamp}ms.\``)
+			.setDescription(`📡 API latency: \`${Math.round(interaction.client.ws.ping)}ms\`\n🏓 Response time: \`${Date.now() - interaction.createdTimestamp}ms\``)
 			.setColor(interaction.guild.members.me.displayHexColor || 'Default');
 
-		return interaction.reply({
+		interaction.reply({
 			embeds: [pingEmbed],
 			ephemeral: true,
 		});

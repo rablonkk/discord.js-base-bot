@@ -1,8 +1,9 @@
+const { ActivityType } = require('discord.js');
 const Events = require('../structures/Events');
-const Config = require('../config/Config');
 const SlashEvents = require('../utils/SlashEvents');
 
 class Ready extends Events {
+
 	/**
 	 *
 	 * @param {import('discord.js').Client} client
@@ -15,15 +16,10 @@ class Ready extends Events {
 	}
 
 	async run() {
-		this.client.on('error', (err) => {
-			console.log('[Client ERROR] ', err);
+		this.client.user.setActivity({
+			name: 'github.com/rablonkk',
+			type: ActivityType.Playing,
 		});
-
-		process.on('unhandledRejection', (reason) => {
-			console.log('[ERROR] ', reason);
-		});
-
-		this.client.config = Config;
 
 		this.client.slash = new SlashEvents(this.client);
 		await this.client.slash.verifyCommands();

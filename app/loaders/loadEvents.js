@@ -8,7 +8,7 @@ module.exports = class loadEvents extends Loaders {
 
 	/**
 	 *
-	 * @param {ExtendedClient} client
+	 * @param {import('discord.js').Client} client
 	 */
 	constructor(client) {
 		super(client);
@@ -26,12 +26,10 @@ module.exports = class loadEvents extends Loaders {
 		const files = fs.readdirSync(filePath, { withFileTypes: true });
 
 		for (const file of files) {
-			const fileStat = fs.lstatSync(path.join(filePath, file.name));
-
-			if (fileStat.isDirectory()) {
+			if (file.isDirectory()) {
 				this.loadFolder(path.join(directory, file.name));
 			}
-			else if (file.endsWith('.js')) {
+			else {
 				const Event = require(path.join(filePath, file.name));
 
 				if (Event.prototype instanceof Events) {
